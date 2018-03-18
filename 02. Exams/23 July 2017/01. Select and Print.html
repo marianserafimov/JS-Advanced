@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select and Print</title>
+    <style>
+        select { width: 100px }
+        .block { display: inline-block; vertical-align: top; text-align: center }
+        button { width: 60px }
+        #btnRight { display: block; margin-top: 20px }
+        #btnLeft { display: block; margin-top: 5px }
+        #btnPrint { display: block; margin-top: 5px }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<div class="block">
+    <div>Available towns</div>
+    <select id="available-towns" size="5">
+        <option>Sofia</option>
+        <option>Varna</option>
+        <option>Pleven</option>
+    </select>
+</div>
+<div class="block">
+    <button id="btnRight" onclick="move('right')">&rightarrow;</button>
+    <button id="btnLeft" onclick="move('left')">&leftarrow;</button>
+    <button id="btnPrint" onclick="move('print')">Print</button>
+</div>
+<div class="block">
+    <div>Selected towns</div>
+    <select id="selected-towns" size="5">
+        <option>Plovdiv</option>
+        <option>Ruse</option>
+    </select>
+</div>
+<div id="output"></div>
+<script>
+    function move(command) {
+        // let printArr = []
+        if(command==='right') {
+            $('#btnRight').on('click', function () {
+                let selectedTown = $('#available-towns').find(':selected').text()
+                if (selectedTown != "") {
+                    let newOption = $('<option>').text(selectedTown)
+                    $('#selected-towns').append(newOption)
+                    $('#available-towns').find(':selected').remove()
+                    // printArr.push(selectedTown)
+                }
+            })
+        }
+        if(command==='left') {
+            $('#btnLeft').on('click', function () {
+                let selectedTown = $('#selected-towns').find(':selected').text()
+                let newOption = $('<option>').text(selectedTown)
+                $('#available-towns').append(newOption)
+                $('#selected-towns').find(':selected').remove()
+                // let index = printArr.indexOf(selectedTown)
+                // if (index > -1) {
+                //     printArr.splice(index, 1);
+                // }
+            })
+        }
+
+        if(command==='print') {
+            let arr = []
+            $('#btnPrint').on('click', function () {
+                // $('#selected-towns option').each((a,b) => arr.push(b.text))
+                let allTheOptions = $('#selected-towns').find('option').toArray().map(a => a.textContent)
+                $('#output').text(allTheOptions.join('; '))
+
+            })
+        }
+
+    }
+</script>
+</body>
